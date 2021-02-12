@@ -6,17 +6,20 @@
 
 void next_month(std::vector<std::vector<std::string>>& vec)
 {
-	static int curr_month = 1;
-	std::map<int,int> calendar = 
+	static size_t curr_month = 1;
+	std::map<size_t,size_t> calendar = 
 	{ {1,31}, {2,28}, {3,31}, {4,30}, {5,31}, {6,30}, {7,31}, {8,31}, {9,30}, {10,31}, {11,30}, {12,31} };
 	++curr_month;
-	int diff = calendar[curr_month] - vec.size();
-	if(diff<0)
+	if(curr_month>12) { curr_month = 1; }
+	if(calendar[curr_month]>vec.size()) { vec.resize(calendar[curr_month]); return; }
+	else if(calendar[curr_month]<vec.size())
 	{
-		for(auto it = vec.end()+diff; it!= vec.end(); ++it)
+		for(size_t i=calendar[curr_month]; i<vec.size(); ++i)
 		{
-			
+			vec[calendar[curr_month]-1].insert(vec[calendar[curr_month]-1].end(), vec[i].begin(), vec[i].end());
 		}
+		vec.resize(calendar[curr_month]);
+		return;
 	}
 }
 
@@ -38,7 +41,8 @@ int main()
 		inp >> spec;
 		if(action=="DUMP")
 		{
-			for(const auto& item : month[spec]) { std::cout << item << ' '; }
+			std::cout << month[spec-1].size() << ' ';
+			for(const auto& item : month[spec-1]) { std::cout << item << ' '; }
 			std::cout << std::endl;
 			continue;
 		}
@@ -46,7 +50,7 @@ int main()
 		inp >> note;
 		if(action=="ADD")
 		{
-			month[spec].push_back(note);
+			month[spec-1].push_back(note);
 		}
 	}
 }
