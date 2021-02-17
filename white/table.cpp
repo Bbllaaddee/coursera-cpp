@@ -8,14 +8,15 @@ int main()
 	int n_rows;
 	int n_cols;
 	inp >> n_rows >> n_cols;
-	std::string line;
-	std::getline(inp, line);
+	std::vector<int> table(n_rows*n_cols);
 	for(int i=0; i<n_rows; ++i)
 	{
 		for(int j=0; j<n_cols; ++j)
 		{
-			std::getline(inp, line, ',');
-			std::cout << std::left << std::setw(10) << line;
+			std::string tmp;
+			std::getline(inp, tmp);
+			std::istringstream iss(tmp);
+
 		}
 	}
 }
